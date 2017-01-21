@@ -14,9 +14,11 @@ public class Country {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "need_visa")
-    private byte needVisa;
-
+   
+    public Country()
+    {
+        
+    }
     public int getId() {
         return id;
     }
@@ -41,11 +43,5 @@ public class Country {
         this.name = name;
     }
 
-    public byte getNeedVisa() {
-        return needVisa;
-    }
-
-    public void setNeedVisa(byte needVisa) {
-        this.needVisa = needVisa;
-    }
+   
 }
