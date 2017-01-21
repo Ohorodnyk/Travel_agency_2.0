@@ -23,12 +23,10 @@ public class Country {
         return id;
     }
 
-    public Country() {
-    }
-
+   
     public Country(String name, byte needVisa) {
         this.name = name;
-        this.needVisa = needVisa;
+       
     }
 
     public void setId(int id) {
