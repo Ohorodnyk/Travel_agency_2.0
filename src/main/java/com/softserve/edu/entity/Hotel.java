@@ -24,6 +24,15 @@ public class Hotel {
         return cityId;
     }
 
+    public Hotel() {
+    }
+
+    public Hotel(int cityId, String name, int roomsCount) {
+        this.cityId = cityId;
+        this.name = name;
+        this.roomsCount = roomsCount;
+    }
+
     public void setCityId(int cityId) {
         this.cityId = cityId;
     }

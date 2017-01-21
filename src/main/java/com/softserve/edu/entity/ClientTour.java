@@ -26,6 +26,17 @@ public class ClientTour {
     @Column(name = "rooms_count")
     private int roomsCount;
 
+    public ClientTour() {
+    }
+
+    public ClientTour(int clientId, Date endDate, int roomsCount, Date startDate, int tourId) {
+        this.clientId = clientId;
+        this.endDate = endDate;
+        this.roomsCount = roomsCount;
+        this.startDate = startDate;
+        this.tourId = tourId;
+    }
+
     public int getClientTourId() {
         return clientTourId;
     }

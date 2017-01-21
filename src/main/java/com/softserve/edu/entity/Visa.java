@@ -24,6 +24,13 @@ public class Visa {
     @Column(name = "end_date")
     private Date endDate;
 
+    public Visa(int clientId, int countryId, Date endDate, Date startDate) {
+        this.clientId = clientId;
+        this.countryId = countryId;
+        this.endDate = endDate;
+        this.startDate = startDate;
+    }
+
     public int getId() {
         return id;
     }

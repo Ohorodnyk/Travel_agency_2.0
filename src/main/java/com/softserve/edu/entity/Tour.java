@@ -24,6 +24,17 @@ public class Tour {
     @Column(name = "description")
     private String description;
 
+    public Tour() {
+    }
+
+    public Tour(int cityId, int countryId, String description, int hotelId, String name) {
+        this.cityId = cityId;
+        this.countryId = countryId;
+        this.description = description;
+        this.hotelId = hotelId;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
