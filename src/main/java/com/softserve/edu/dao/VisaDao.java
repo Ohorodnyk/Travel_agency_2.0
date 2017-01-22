@@ -2,7 +2,11 @@ package com.softserve.edu.dao;
 
 import com.softserve.edu.entity.Visa;
 
-public interface VisaDao {
+public class VisaDao extends GenericDaoImpl<Visa> {
 
-    public void addVisa(Visa visa);
+    public VisaDao() {
+        super(Visa.class);
+    }
+
 }
+
