@@ -1,10 +1,35 @@
 package com.softserve.edu.service;
 
+import java.util.List;
+
+import com.softserve.edu.dao.DaoFactory;
 import com.softserve.edu.entity.Visa;
 
-public interface VisaService {
+public class VisaService {
 
-    public void addVisa(Visa visa);
+    public void addVisa(Visa visa) {
+        DaoFactory.getInstance().getVisaDao().add(visa);
+    }
 
-    public void removeVisa(int id);
+    public void updateVisa(Visa visa) {
+        DaoFactory.getInstance().getVisaDao().update(visa);
+    }
+
+    public Visa getVisaById(Integer id) {
+        return DaoFactory.getInstance().getVisaDao().getById(id);
+    }
+
+    public List<Visa> getAllVisas() {
+        return DaoFactory.getInstance().getVisaDao().getAllElements();
+    }
+
+    public void deleteVisa(Visa visa) {
+        DaoFactory.getInstance().getVisaDao().delete(visa);
+    }
+
 }
+
+
+
+
+
