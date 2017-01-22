@@ -1,7 +1,9 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "client_tours")
@@ -9,57 +11,53 @@ public class ClientTour {
     @Id
     @Column(name = "client_tour_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int clientTourId;
+    private int Id;
 
-    @Column(name = "client_id")
-    private int clientId;
-
-    @Column(name = "tour_id")
-    private int tourId;
-
+    @ManyToOne
+    @JoinColumn(name="client_id")
+    private Client client; 
+    
+    
+    @ManyToOne
+    @JoinColumn(name="tour_id")
+    private Tour tour;
+    
+   
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="clientTour")
+    Set<Booking> booking = new HashSet<>();
+    
     @Column(name = "start_date")
     private Date startDate;
 
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "rooms_count")
-    private int roomsCount;
+    
 
     public ClientTour() {
     }
 
-    public ClientTour(int clientId, Date endDate, int roomsCount, Date startDate, int tourId) {
-        this.clientId = clientId;
-        this.endDate = endDate;
-        this.roomsCount = roomsCount;
+    
+    
+    public ClientTour(Client client, Tour tour, Date startDate, Date endDate) {
+        super();
+        this.client = client;
+        this.tour = tour;
         this.startDate = startDate;
-        this.tourId = tourId;
+        this.endDate = endDate;
+    }
+    
+
+    public int getId() {
+        return Id;
     }
 
-    public int getClientTourId() {
-        return clientTourId;
+    public void setId(int clientTourId) {
+        this.Id = clientTourId;
     }
 
-    public void setClientTourId(int clientTourId) {
-        this.clientTourId = clientTourId;
-    }
+   
 
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
-
-    public int getTourId() {
-        return tourId;
-    }
-
-    public void setTourId(int tourId) {
-        this.tourId = tourId;
-    }
 
     public Date getStartDate() {
         return startDate;
@@ -77,11 +75,42 @@ public class ClientTour {
         this.endDate = endDate;
     }
 
-    public int getRoomsCount() {
-        return roomsCount;
+    
+
+    
+
+
+
+    public Client getClient() {
+        return client;
     }
 
-    public void setRoomsCount(int roomsCount) {
-        this.roomsCount = roomsCount;
+
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+
+
+    public Tour getTour() {
+        return tour;
+    }
+
+
+
+    public void setTour(Tour tour) {
+        this.tour = tour;
+    }
+
+
+
+    public Set<Booking> getBooking() {
+        return booking;
+    }
+
+
+    public void setBooking(Set<Booking> booking) {
+        this.booking = booking;
     }
 }

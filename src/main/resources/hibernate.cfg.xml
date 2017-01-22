@@ -24,7 +24,14 @@
        
 
         <mapping class="com.softserve.edu.entity.Country"/>
-       
+        <mapping class="com.softserve.edu.entity.City"/>
+        <mapping class="com.softserve.edu.entity.Hotel"/>
+        <mapping class="com.softserve.edu.entity.HotelRoom"/>
+        <mapping class="com.softserve.edu.entity.Client"/>
+        <mapping class="com.softserve.edu.entity.Tour"/>
+        <mapping class="com.softserve.edu.entity.Visa"/>
+        <mapping class="com.softserve.edu.entity.ClientTour"/>
+         <mapping class="com.softserve.edu.entity.Booking"/>
     </session-factory>
 
 </hibernate-configuration>

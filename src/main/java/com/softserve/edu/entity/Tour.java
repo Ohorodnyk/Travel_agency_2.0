@@ -1,4 +1,7 @@
 package com.softserve.edu.entity;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,16 +11,22 @@ public class Tour {
     @Column(name = "tour_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @ManyToOne
+    @JoinColumn(name="country_id")
+    private Country country;
+    
+   
+    @ManyToOne
+    @JoinColumn(name="city_id")
+    private City  city;
 
-    @Column(name = "country_id")
-    private int countryId;
-
-    @Column(name = "city_id")
-    private int cityId;
-
-    @Column(name = "hotel_id")
-    private int hotelId;
-
+    
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="tour")
+    Set<ClientTour> clientTours = new HashSet<>();
+  
+    
     @Column(name = "name")
     private String name;
 
@@ -26,15 +35,15 @@ public class Tour {
 
     public Tour() {
     }
-
-    public Tour(int cityId, int countryId, String description, int hotelId, String name) {
-        this.cityId = cityId;
-        this.countryId = countryId;
-        this.description = description;
-        this.hotelId = hotelId;
+    
+    public Tour(String name, String description, Country country, City city) {
+        super();
+        this.country = country;
+        this.city = city;
         this.name = name;
+        this.description = description;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -43,30 +52,8 @@ public class Tour {
         this.id = id;
     }
 
-    public int getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
-    }
-
-    public int getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
-    }
-
-    public int getHotelId() {
-        return hotelId;
-    }
-
-    public void setHotelId(int hotelId) {
-        this.hotelId = hotelId;
-    }
-
+   
+  
     public String getName() {
         return name;
     }
@@ -81,5 +68,33 @@ public class Tour {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public Country getCountry() {
+        return country;
+    }
+
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+
+    public City getCity() {
+        return city;
+    }
+
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Set<ClientTour> getClientTours() {
+        return clientTours;
+    }
+
+    public void setClientTours(Set<ClientTour> clientTours) {
+        this.clientTours = clientTours;
     }
 }

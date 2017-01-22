@@ -1,5 +1,8 @@
 package com.softserve.edu.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,25 +13,41 @@ public class Country {
     @Column(name = "country_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="country")
+    Set<City> cities = new HashSet<>();
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="country")
+    Set<Tour> tours = new HashSet<>();
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="country")
+    Set<Visa> visas = new HashSet<>();
+    
+    public Set<Visa> getVisas() {
+        return visas;
+    }
+
+    public void setVisas(Set<Visa> visas) {
+        this.visas = visas;
+    }
 
     @Column(name = "name")
     private String name;
 
-   
-    public Country()
-    {
+    public Country() {
         
     }
-    public int getId() {
-        return id;
-    }
-
-   
-    public Country(String name, byte needVisa) {
+    
+    public Country(String name) {
         this.name = name;
        
     }
 
+    public int getId() {
+        return id;
+    }
+
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -39,6 +58,22 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(Set<City> cities) {
+        this.cities = cities;
+    }
+
+    public Set<Tour> getTours() {
+        return tours;
+    }
+
+    public void setTours(Set<Tour> tours) {
+        this.tours = tours;
     }
 
    

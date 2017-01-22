@@ -1,5 +1,8 @@
 package com.softserve.edu.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,17 +13,24 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "country_id")
-    private int countryId;
-
+    @ManyToOne
+    @JoinColumn(name="country_id")
+    private Country country;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="city")
+    Set<Hotel> hotels = new HashSet<>();
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="city")
+    Set<Tour> tours = new HashSet<>();
+    
     @Column(name = "name")
     private String name;
 
     public City() {
     }
 
-    public City(int countryId, String name) {
-        this.countryId = countryId;
+    public City(String name, Country country) {
+        this.country = country;
         this.name = name;
     }
 
@@ -32,14 +42,7 @@ public class City {
         this.id = id;
     }
 
-    public int getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
-    }
-
+   
     public String getName() {
         return name;
     }
@@ -47,4 +50,32 @@ public class City {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public Set<Hotel> getHotels() {
+        return hotels;
+    }
+
+    public void setHotels(Set<Hotel> hotels) {
+        this.hotels = hotels;
+    }
+
+    public Set<Tour> getTours() {
+        return tours;
+    }
+
+    public void setTours(Set<Tour> tours) {
+        this.tours = tours;
+    }
+    
+    
+    
+    
 }

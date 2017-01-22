@@ -1,5 +1,8 @@
 package com.softserve.edu.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,33 +13,36 @@ public class Hotel {
     @Column(name = "hotel_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "city_id")
-    private int cityId;
-
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="hotel")
+    Set<HotelRoom> hotelRooms = new HashSet<>();
+    
+    
+    @ManyToOne
+    @JoinColumn(name="city_id")
+    private City city;
+    
+    
+    
     @Column(name = "name")
     private String name;
 
     @Column(name = "rooms_count")
     private int roomsCount;
 
-    public int getCityId() {
-        return cityId;
-    }
+   
 
     public Hotel() {
     }
 
-    public Hotel(int cityId, String name, int roomsCount) {
-        this.cityId = cityId;
+    public Hotel(String name, int roomsCount,City city) {
+
         this.name = name;
         this.roomsCount = roomsCount;
+        this.city=city;
     }
 
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
-    }
-
+    
     public int getId() {
         return id;
     }
@@ -59,5 +65,21 @@ public class Hotel {
 
     public void setRoomsCount(int roomsCount) {
         this.roomsCount = roomsCount;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Set<HotelRoom> getHotelRooms() {
+        return hotelRooms;
+    }
+
+    public void setHotelRooms(Set<HotelRoom> hotelRooms) {
+        this.hotelRooms = hotelRooms;
     }
 }

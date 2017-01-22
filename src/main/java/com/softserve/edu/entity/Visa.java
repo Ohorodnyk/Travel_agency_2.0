@@ -2,7 +2,7 @@ package com.softserve.edu.entity;
 
 import javax.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "visas")
@@ -11,12 +11,18 @@ public class Visa {
     @Column(name = "visa_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    
+    @ManyToOne
+    @JoinColumn(name="client_id")
+    private Client client;
+    
+    
+    @ManyToOne
+    @JoinColumn(name="country_id")
+    private Country country;
 
-    @Column(name = "client_id")
-    private int clientId;
-
-    @Column(name = "country_id")
-    private int countryId;
+   
 
     @Column(name = "start_date")
     private Date startDate;
@@ -24,12 +30,20 @@ public class Visa {
     @Column(name = "end_date")
     private Date endDate;
 
-    public Visa(int clientId, int countryId, Date endDate, Date startDate) {
-        this.clientId = clientId;
-        this.countryId = countryId;
-        this.endDate = endDate;
-        this.startDate = startDate;
+    public Visa(){
+        
     }
+    
+    
+    
+    public Visa(Client client, Country country, Date startDate, Date endDate) {
+        super();
+        this.client = client;
+        this.country = country;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
 
     public int getId() {
         return id;
@@ -39,22 +53,7 @@ public class Visa {
         this.id = id;
     }
 
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
-
-    public int getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
-    }
-
+   
     public Date getStartDate() {
         return startDate;
     }
@@ -69,5 +68,21 @@ public class Visa {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }
