@@ -27,6 +27,9 @@ public class Application {
             System.out.println("--------------------------------------");
             findVisasByClient("Ivan", "Petrenko");
             System.out.println("--------------------------------------");
+            countOfVisas("Hungary");
+            System.out.println("--------------------------------------");
+            
 
         } finally {
             factory.close();
@@ -73,6 +76,16 @@ public class Application {
             System.out.println("Start Date:" + visa.getStartDate());
             System.out.println("End Date:" + visa.getEndDate());
         }
+    }
+    
+    //Query 6
+    
+    public static void countOfVisas(String country)
+    {
+        VisaService visaService = new VisaService();
+        int count = visaService.countOfVisas(country);
+        System.out.println("Count of visas to "+ country+":"+count);
+        
     }
 
     public static void loadData() {

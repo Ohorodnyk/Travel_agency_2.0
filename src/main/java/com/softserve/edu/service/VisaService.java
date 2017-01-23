@@ -27,15 +27,13 @@ public class VisaService {
     public void deleteVisa(Visa visa) {
         DaoFactory.getInstance().getVisaDao().delete(visa);
     }
-    
-    public Set<Visa> findVisas(String firstName, String lastName)
-    {
+
+    public Set<Visa> findVisas(String firstName, String lastName) {
         return DaoFactory.getInstance().getVisaDao().findVisas(firstName, lastName);
     }
 
+    public int countOfVisas(String country) {
+        return DaoFactory.getInstance().getVisaDao().countOfVisas(country);
+    }
+
 }
-
-
-
-
-

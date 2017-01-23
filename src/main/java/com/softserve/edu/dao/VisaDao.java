@@ -17,9 +17,8 @@ public class VisaDao extends GenericDaoImpl<Visa> {
     public VisaDao() {
         super(Visa.class);
     }
-    
-    public Set<Visa> findVisas(String firstName, String lastName)
-    {
+
+    public Set<Visa> findVisas(String firstName, String lastName) {
         Session session = null;
         Set<Visa> visas = null;
         try {
@@ -40,9 +39,32 @@ public class VisaDao extends GenericDaoImpl<Visa> {
                 session.close();
             }
         }
-        
+
         return visas;
     }
 
-}
+    public int countOfVisas(String country) {
+        Session session = null;
+        int count = 0;
+        try {
 
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Query query = session.createQuery("select count(country.id) from Visa  where country.name =:country");
+            query.setParameter("country", country);
+            List list = query.list();
+            count = ((Number) list.get(0)).intValue();
+            transaction.commit();
+        }
+
+        finally {
+            if ((session != null) && (session.isOpen())) {
+                session.close();
+            }
+        }
+
+        return count;
+    }
+
+}
