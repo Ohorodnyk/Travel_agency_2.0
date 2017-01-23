@@ -1,6 +1,7 @@
 package com.softserve.edu.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.softserve.edu.dao.DaoFactory;
 import com.softserve.edu.entity.Visa;
@@ -25,6 +26,11 @@ public class VisaService {
 
     public void deleteVisa(Visa visa) {
         DaoFactory.getInstance().getVisaDao().delete(visa);
+    }
+    
+    public Set<Visa> findVisas(String firstName, String lastName)
+    {
+        return DaoFactory.getInstance().getVisaDao().findVisas(firstName, lastName);
     }
 
 }

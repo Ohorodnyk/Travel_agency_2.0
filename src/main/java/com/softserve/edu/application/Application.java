@@ -18,23 +18,24 @@ import com.softserve.edu.service.*;
 public class Application {
     public static void main(String[] args) {
 
-        SessionFactory factory= HibernateUtil.getSessionFactory();
-        try
-        {
-        // loadData();
-        findCountriesAndCities();
-        System.out.println("--------------------------------------");
-        findHotels("Warsaw");
-        System.out.println("--------------------------------------");
-        }
-        finally{
+        SessionFactory factory = HibernateUtil.getSessionFactory();
+        try {
+            // loadData();
+            findCountriesAndCities();
+            System.out.println("--------------------------------------");
+            findHotels("Warsaw");
+            System.out.println("--------------------------------------");
+            findVisasByClient("Ivan", "Petrenko");
+            System.out.println("--------------------------------------");
+
+        } finally {
             factory.close();
         }
 
     }
 
     // Query1
-        public static void findCountriesAndCities() {
+    public static void findCountriesAndCities() {
 
         CountryService countryService = new CountryService();
         Set<Country> countries = new HashSet<>(countryService.getAllCountries());
@@ -59,6 +60,18 @@ public class Application {
         Set<Hotel> hotels = hotelService.findHotels(city);
         for (Hotel hotel : hotels) {
             System.out.println(hotel.getName());
+        }
+    }
+
+    // Query 5
+    public static void findVisasByClient(String firstName, String lastName) {
+        VisaService visaService = new VisaService();
+        Set<Visa> visas = visaService.findVisas(firstName, lastName);
+        System.out.println("Client " + firstName + " " + lastName + " has " + visas.size() + " visas");
+        for (Visa visa : visas) {
+            System.out.println("Country:" + visa.getCountry().getName());
+            System.out.println("Start Date:" + visa.getStartDate());
+            System.out.println("End Date:" + visa.getEndDate());
         }
     }
 
