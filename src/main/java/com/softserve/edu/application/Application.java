@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.softserve.edu.dao.HibernateUtil;
@@ -17,47 +18,52 @@ import com.softserve.edu.service.*;
 public class Application {
     public static void main(String[] args) {
 
-       loadData();
+        SessionFactory factory= HibernateUtil.getSessionFactory();
+        try
+        {
+        // loadData();
         findCountriesAndCities();
+        System.out.println("--------------------------------------");
         findHotels("Warsaw");
+        System.out.println("--------------------------------------");
+        }
+        finally{
+            factory.close();
+        }
 
     }
-   
-    //Query1
-    public static void findCountriesAndCities()
-    {
-        
-        CountryService countryService= new CountryService();
+
+    // Query1
+        public static void findCountriesAndCities() {
+
+        CountryService countryService = new CountryService();
         Set<Country> countries = new HashSet<>(countryService.getAllCountries());
         System.out.println("All countries:");
-        for(Country country:countries){
+        for (Country country : countries) {
             System.out.println(country.getName());
         }
-        
+
         System.out.println("All cities:");
-        CityService cityService= new CityService();
+        CityService cityService = new CityService();
         Set<City> cities = new HashSet<>(cityService.getAllCities());
-        for(City city:cities){
+        for (City city : cities) {
             System.out.println(city.getName());
         }
-        
+
     }
-    
-    //Query2
-    public static void findHotels(String city)
-    {
-        System.out.println("Hotels in "+city+":");
-        HotelService hotelService= new HotelService();
-        Set<Hotel>  hotels = hotelService.findHotels(city);
-        for(Hotel hotel :hotels)
-        {
+
+    // Query2
+    public static void findHotels(String city) {
+        System.out.println("Hotels in " + city + ":");
+        HotelService hotelService = new HotelService();
+        Set<Hotel> hotels = hotelService.findHotels(city);
+        for (Hotel hotel : hotels) {
             System.out.println(hotel.getName());
         }
     }
-    
-    
+
     public static void loadData() {
-   
+
         addCountries();
         addCities();
         addHotels();
@@ -68,7 +74,7 @@ public class Application {
         addVisas();
         addBookings();
         System.out.println("Data has been loaded");
-        
+
     }
 
     private static void addCountries() {
@@ -212,7 +218,7 @@ public class Application {
 
     }
 
-    private  static void addVisas() {
+    private static void addVisas() {
 
         VisaService visaService = new VisaService();
         ClientService clientService = new ClientService();
@@ -251,37 +257,33 @@ public class Application {
         }
 
     }
-    
-    private static void addBookings()
-    {
+
+    private static void addBookings() {
         ClientTourService clientTourService = new ClientTourService();
         HotelRoomService hrService = new HotelRoomService();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         HotelRoom[] rooms = new HotelRoom[5];
-        for(int i=0;i<rooms.length;i++)
-        {
-            rooms[i]=hrService.getHotelRoomById(i+1);
+        for (int i = 0; i < rooms.length; i++) {
+            rooms[i] = hrService.getHotelRoomById(i + 1);
         }
-        
-        ClientTour tour1= clientTourService.getClientTourById(1);
-        ClientTour tour2= clientTourService.getClientTourById(2);
+
+        ClientTour tour1 = clientTourService.getClientTourById(1);
+        ClientTour tour2 = clientTourService.getClientTourById(2);
         BookingService bookingService = new BookingService();
-        
+
         Booking booking[] = new Booking[5];
-        for(int i=0;i<booking.length;i++)
-        {
+        for (int i = 0; i < booking.length; i++) {
             try {
-                booking[i]= new Booking(rooms[i],tour1,formatter.parse("2017-01-01"), formatter.parse("2017-01-31"));
+                booking[i] = new Booking(rooms[i], tour1, formatter.parse("2017-01-01"), formatter.parse("2017-01-31"));
                 tour1.getBooking().add(booking[i]);
                 rooms[i].getBooking().add(booking[i]);
                 bookingService.addBooking(booking[i]);
             } catch (ParseException e) {
-             
+
                 System.out.println("Date parse error" + e);
             }
         }
-        
-        
+
     }
 
 }
