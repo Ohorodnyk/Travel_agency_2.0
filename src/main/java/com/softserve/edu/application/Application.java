@@ -28,6 +28,7 @@ public class Application {
         addClients();
         addClientTours();
         addVisas();
+        addBookings();
         
     }
 
@@ -215,11 +216,31 @@ public class Application {
     private static void addBookings()
     {
         ClientTourService clientTourService = new ClientTourService();
+        HotelRoomService hrService = new HotelRoomService();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        HotelRoom[] rooms = new HotelRoom[5];
+        for(int i=0;i<rooms.length;i++)
+        {
+            rooms[i]=hrService.getHotelRoomById(i+1);
+        }
+        
         ClientTour tour1= clientTourService.getClientTourById(1);
         ClientTour tour2= clientTourService.getClientTourById(2);
         BookingService bookingService = new BookingService();
         
-        Booking booking[] = new Booking[8];
+        Booking booking[] = new Booking[5];
+        for(int i=0;i<booking.length;i++)
+        {
+            try {
+                booking[i]= new Booking(rooms[i],tour1,formatter.parse("2017-01-01"), formatter.parse("2017-01-31"));
+                tour1.getBooking().add(booking[i]);
+                rooms[i].getBooking().add(booking[i]);
+                bookingService.addBooking(booking[i]);
+            } catch (ParseException e) {
+             
+                System.out.println("Date parse error" + e);
+            }
+        }
         
         
     }
