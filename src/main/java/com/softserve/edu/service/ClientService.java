@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.softserve.edu.dao.DaoFactory;
 import com.softserve.edu.entity.Client;
+import com.softserve.edu.entity.Country;
 
 public class ClientService {
 
@@ -26,6 +27,12 @@ public class ClientService {
     public void deleteClient(Client client) {
         DaoFactory.getInstance().getClientDao().delete(client);
     }
+    
+    public Client findClient(String firstName, String lastName){
+        return  DaoFactory.getInstance().getClientDao().findClient(firstName, lastName);
+    }
+    
+   
 
 }
 

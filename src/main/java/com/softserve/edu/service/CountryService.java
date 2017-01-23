@@ -26,6 +26,10 @@ public class CountryService {
     public void deleteCountry(Country country) {
         DaoFactory.getInstance().getCountryDao().delete(country);
     }
+    
+    public List<Country> findVisitedCountries(String firstName, String lastName) {
+        return DaoFactory.getInstance().getCountryDao().findVisitedCountries(firstName, lastName);
+    }
 
 }
 

@@ -19,6 +19,7 @@ public class Application {
     public static void main(String[] args) {
 
         SessionFactory factory = HibernateUtil.getSessionFactory();
+        // Session session = factory.openSession();
         try {
             // loadData();
             findCountriesAndCities();
@@ -29,10 +30,20 @@ public class Application {
             System.out.println("--------------------------------------");
             countOfVisas("Hungary");
             System.out.println("--------------------------------------");
-            
+            showClientStatistics("Ivan","Petrenko");
+            System.out.println("--------------------------------------");
+
+            /*
+             * Query query= session.createQuery(
+             * "Select t.tour.country from ClientTour t where t.client.firstName =:f"
+             * ); query.setParameter("f","Ivan"); List<Country> countries=
+             * query.list(); for (Country country : countries) {
+             * System.out.println(country.getName()); }
+             */
 
         } finally {
             factory.close();
+            // session.close();
         }
 
     }
@@ -77,15 +88,35 @@ public class Application {
             System.out.println("End Date:" + visa.getEndDate());
         }
     }
-    
-    //Query 6
-    
-    public static void countOfVisas(String country)
-    {
+
+    // Query 6
+
+    public static void countOfVisas(String country) {
         VisaService visaService = new VisaService();
         int count = visaService.countOfVisas(country);
-        System.out.println("Count of visas to "+ country+":"+count);
-        
+        System.out.println("Count of visas to " + country + ":" + count);
+
+    }
+
+    // Query 8
+    public static void showClientStatistics(String firstName, String lastName) {
+        ClientService clientService = new ClientService();
+        Client client = clientService.findClient(firstName, lastName);
+        System.out.println("Client " + firstName + " " + lastName);
+        System.out.println("Information about visas:");
+        Set<Visa> visas = client.getVisas();
+        for (Visa visa : visas) {
+            System.out.println("Country:" + visa.getCountry().getName());
+            System.out.println("Start Date:" + visa.getStartDate());
+            System.out.println("End Date:" + visa.getEndDate());
+        }
+        CountryService countryService = new CountryService();
+        List<Country> countries = countryService.findVisitedCountries(firstName, lastName);
+        System.out.println("Client visited those countries:");
+        for (Country country : countries) {
+            System.out.println(country.getName());
+        }
+
     }
 
     public static void loadData() {
