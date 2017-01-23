@@ -11,6 +11,12 @@ public class Tour {
     @Column(name = "tour_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+     
+    @Column(name = "name")
+    private String name;
+    
+    @Column(name = "description")
+    private String description;
     
     @ManyToOne
     @JoinColumn(name="country_id")
@@ -20,18 +26,11 @@ public class Tour {
     @ManyToOne
     @JoinColumn(name="city_id")
     private City  city;
-
-    
-    
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="tour")
-    Set<ClientTour> clientTours = new HashSet<>();
   
     
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="tour")
+    Set<ClientTour> clientTours = new HashSet<>();
+      
 
     public Tour() {
     }

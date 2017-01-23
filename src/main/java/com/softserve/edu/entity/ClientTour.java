@@ -23,13 +23,15 @@ public class ClientTour {
     private Tour tour;
     
    
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="clientTour")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="clientTour")
     Set<Booking> booking = new HashSet<>();
     
     @Column(name = "start_date")
+    @Temporal(TemporalType.DATE)
     private Date startDate;
 
     @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     
@@ -75,16 +77,10 @@ public class ClientTour {
         this.endDate = endDate;
     }
 
-    
-
-    
-
-
 
     public Client getClient() {
         return client;
     }
-
 
 
     public void setClient(Client client) {

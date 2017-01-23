@@ -17,10 +17,10 @@ public class City {
     @JoinColumn(name="country_id")
     private Country country;
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="city")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="city")
     Set<Hotel> hotels = new HashSet<>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="city")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="city")
     Set<Tour> tours = new HashSet<>();
     
     @Column(name = "name")

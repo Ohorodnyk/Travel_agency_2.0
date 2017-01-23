@@ -7,5 +7,7 @@ public class CountryDao extends GenericDaoImpl<Country> {
     public CountryDao() {
         super(Country.class);
     }
+    
+    
 
 }

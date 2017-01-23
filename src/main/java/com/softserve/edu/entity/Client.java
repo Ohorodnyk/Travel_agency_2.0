@@ -13,11 +13,11 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="client")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="client")
     Set<Visa> visas = new HashSet<>();
     
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="client")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="client")
     Set<ClientTour> clientTours = new HashSet<>();
 
     @Column(name = "first_name", length = 50)

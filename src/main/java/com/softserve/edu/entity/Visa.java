@@ -23,17 +23,17 @@ public class Visa {
     private Country country;
 
    
-
     @Column(name = "start_date")
+    @Temporal(TemporalType.DATE)
     private Date startDate;
 
     @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     public Visa(){
         
     }
-    
     
     
     public Visa(Client client, Country country, Date startDate, Date endDate) {

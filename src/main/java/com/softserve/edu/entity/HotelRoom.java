@@ -6,21 +6,22 @@ import java.util.Set;
 @Entity
 @Table(name="hotel_rooms")
 public class HotelRoom {
+  
     @Id
     @Column(name="room_id")
-    private int roomId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @ManyToOne
     @JoinColumn(name="hotel_id")
     private Hotel hotel;
     
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="room")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="room")
     Set<Booking> booking = new HashSet<>();
     
-    public HotelRoom(String name, int roomId, Hotel hotel) {
+    public HotelRoom(String name,Hotel hotel) {
         super();
-        this.roomId = roomId;
         this.hotel = hotel;
         this.name = name;
     }
@@ -32,21 +33,21 @@ public class HotelRoom {
         
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+
+    public int getId() {
+        return id;
     }
 
-  
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
 
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getRoomId() {
-        return roomId;
-    }
-
-   
 
     public String getName() {
         return name;

@@ -14,7 +14,7 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="hotel")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="hotel")
     Set<HotelRoom> hotelRooms = new HashSet<>();
     
     

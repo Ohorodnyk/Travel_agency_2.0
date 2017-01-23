@@ -14,13 +14,13 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="country")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="country")
     Set<City> cities = new HashSet<>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="country")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="country")
     Set<Tour> tours = new HashSet<>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="country")
+    @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="country")
     Set<Visa> visas = new HashSet<>();
     
     public Set<Visa> getVisas() {

@@ -7,7 +7,7 @@ import com.softserve.edu.entity.HotelRoom;
 
 public class HotelRoomService {
 
-    public void addHotel(HotelRoom hotelRoom) {
+    public void addHotelRoom(HotelRoom hotelRoom) {
         DaoFactory.getInstance().getHotelRoomDao().add(hotelRoom);
     }
 
