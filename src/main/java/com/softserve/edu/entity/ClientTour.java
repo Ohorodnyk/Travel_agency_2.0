@@ -26,12 +26,12 @@ public class ClientTour {
     @OneToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="clientTour")
     Set<Booking> booking = new HashSet<>();
     
-    @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
+    @Column(name = "start_date")
     private Date startDate;
 
-    @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
+    @Column(name = "end_date")
     private Date endDate;
 
     

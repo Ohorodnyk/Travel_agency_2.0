@@ -1,6 +1,7 @@
 package com.softserve.edu.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.softserve.edu.dao.DaoFactory;
 import com.softserve.edu.entity.Hotel;
@@ -25,6 +26,11 @@ public class HotelService {
 
     public void deleteHotel(Hotel hotel) {
         DaoFactory.getInstance().getHotelDao().delete(hotel);
+    }
+    
+    public Set<Hotel> findHotels(String city)
+    {
+       return  DaoFactory.getInstance().getHotelDao().findHotels(city);
     }
 
 }

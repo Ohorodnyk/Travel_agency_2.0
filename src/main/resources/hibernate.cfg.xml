@@ -18,11 +18,12 @@
 
 
         <!-- Echo all executed SQL to stdout -->
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         
         <property name="hibernate.hbm2ddl.auto">create</property>
        
-
+     
+        
         <mapping class="com.softserve.edu.entity.Country"/>
         <mapping class="com.softserve.edu.entity.City"/>
         <mapping class="com.softserve.edu.entity.Hotel"/>
@@ -31,7 +32,7 @@
         <mapping class="com.softserve.edu.entity.Tour"/>
         <mapping class="com.softserve.edu.entity.Visa"/>
         <mapping class="com.softserve.edu.entity.ClientTour"/>
-         <mapping class="com.softserve.edu.entity.Booking"/>
+        <mapping class="com.softserve.edu.entity.Booking"/>
     </session-factory>
 
 </hibernate-configuration>

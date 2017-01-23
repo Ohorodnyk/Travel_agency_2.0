@@ -2,10 +2,14 @@ package com.softserve.edu.application;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.softserve.edu.dao.HibernateUtil;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.service.*;
@@ -13,13 +17,47 @@ import com.softserve.edu.service.*;
 public class Application {
     public static void main(String[] args) {
 
-        loadData();
-        
+       loadData();
+        findCountriesAndCities();
+        findHotels("Warsaw");
 
     }
-
+   
+    //Query1
+    public static void findCountriesAndCities()
+    {
+        
+        CountryService countryService= new CountryService();
+        Set<Country> countries = new HashSet<>(countryService.getAllCountries());
+        System.out.println("All countries:");
+        for(Country country:countries){
+            System.out.println(country.getName());
+        }
+        
+        System.out.println("All cities:");
+        CityService cityService= new CityService();
+        Set<City> cities = new HashSet<>(cityService.getAllCities());
+        for(City city:cities){
+            System.out.println(city.getName());
+        }
+        
+    }
+    
+    //Query2
+    public static void findHotels(String city)
+    {
+        System.out.println("Hotels in "+city+":");
+        HotelService hotelService= new HotelService();
+        Set<Hotel>  hotels = hotelService.findHotels(city);
+        for(Hotel hotel :hotels)
+        {
+            System.out.println(hotel.getName());
+        }
+    }
+    
+    
     public static void loadData() {
-
+   
         addCountries();
         addCities();
         addHotels();
@@ -29,6 +67,7 @@ public class Application {
         addClientTours();
         addVisas();
         addBookings();
+        System.out.println("Data has been loaded");
         
     }
 

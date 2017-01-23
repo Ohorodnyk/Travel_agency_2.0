@@ -7,5 +7,6 @@ public class CityDao extends GenericDaoImpl<City> {
     public CityDao() {
         super(City.class);
     }
-
+    
+   
 }
