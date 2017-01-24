@@ -84,13 +84,55 @@ public class HotelDao extends GenericDaoImpl<Hotel> {
             query.setParameter("date", date);
             list = query.list();
             transaction.commit();
-        }
-        finally {
+        } finally {
             if ((session != null) && (session.isOpen())) {
                 session.close();
             }
 
         }
-       return list;
+        return list;
+    }
+
+    public int findCountOfClients(String hotel) {
+        Session session = null;
+        int count = 0;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session
+                    .createQuery("select count(distinct ct.id) from Booking as b  " + "inner join b.clientTour as ct "
+                            + "inner join b.room as r " + "inner join r.hotel as h " + " where h.name= :hotel");
+            query.setParameter("hotel", hotel);
+            List list = query.list();
+            count = ((Number) list.get(0)).intValue();
+            transaction.commit();
+        } finally {
+            if ((session != null) && (session.isOpen())) {
+                session.close();
+            }
+        }
+        return count;
+    }
+
+    public int averageTimeOfBooking(String hotel) {
+        Session session = null;
+        int days = 0;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createSQLQuery("SELECT AVG( DATEDIFF(br.end_date, br.start_date) ) "
+                    + "FROM booking br " + "JOIN client_tours ct ON br.client_tour_id=ct.client_tour_id "
+                    + " JOIN hotel_rooms r on br.room_id=r.room_id " + "  JOIN hotels h on r.hotel_id=h.hotel_id "
+                    + " WHERE h.name= :hotel");
+            query.setParameter("hotel", "Hotel Metropol");
+            List list = query.list();
+            days = ((Number) list.get(0)).intValue();
+            transaction.commit();
+        } finally {
+            if ((session != null) && (session.isOpen())) {
+                session.close();
+            }
+        }
+        return days;
     }
 }

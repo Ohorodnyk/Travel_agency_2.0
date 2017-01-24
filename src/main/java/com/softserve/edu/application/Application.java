@@ -30,7 +30,6 @@ public class Application {
             } catch (ParseException e) {
                 System.out.println("Parsing error");
             }
-
             findCountriesAndCities();
             System.out.println("--------------------------------------");
             findHotels("Warsaw");
@@ -43,35 +42,32 @@ public class Application {
             System.out.println("--------------------------------------");
             countOfVisas("Hungary");
             System.out.println("--------------------------------------");
-            reserveHotel("Ivan","Petrenko" ,"Poland","Warsaw",date);
+            reserveHotel("Ivan", "Petrenko", "Poland", "Warsaw", date);
             System.out.println("--------------------------------------");
             showClientStatistics("Ivan", "Petrenko");
+            System.out.println("--------------------------------------");
+            showHotelStatistics("Hotel Metropol");
             System.out.println("--------------------------------------");
 
         } finally {
             factory.close();
-
         }
-
     }
 
     // Query1
     public static void findCountriesAndCities() {
-
         CountryService countryService = new CountryService();
         Set<Country> countries = new HashSet<>(countryService.getAllCountries());
         System.out.println("All countries:");
         for (Country country : countries) {
             System.out.println(country.getName());
         }
-
         System.out.println("All cities:");
         CityService cityService = new CityService();
         Set<City> cities = new HashSet<>(cityService.getAllCities());
         for (City city : cities) {
             System.out.println(city.getName());
         }
-
     }
 
     // Query2
@@ -115,12 +111,10 @@ public class Application {
     }
 
     // Query 6
-
     public static void countOfVisas(String country) {
         VisaService visaService = new VisaService();
         int count = visaService.countOfVisas(country);
         System.out.println("Count of visas to " + country + ":" + count);
-
     }
 
     // Query 7
@@ -131,14 +125,12 @@ public class Application {
             System.out.println("Client can't reserve a Hotel because of not valid visa");
             return;
         }
-
         System.out.println("Information about visas:");
         for (Visa visa : visas) {
             System.out.println("Country:" + visa.getCountry().getName());
             System.out.println("Start Date:" + visa.getStartDate());
             System.out.println("End Date:" + visa.getEndDate());
         }
-
         HotelService hotelService = new HotelService();
         List<Object[]> list = hotelService.findFreeHotels(city, date);
         if (list.isEmpty()) {
@@ -172,6 +164,17 @@ public class Application {
         for (Country country : countries) {
             System.out.println(country.getName());
         }
+
+    }
+
+    // Query 10
+    public static void showHotelStatistics(String hotel) {
+        HotelService hotelService = new HotelService();
+        int countOfClients = hotelService.findCountOfClients(hotel);
+        int avgTimeOfBooking = hotelService.averageTimeOfBooking(hotel);
+        System.out.println("Information about " + hotel);
+        System.out.println("Count of Clients:" + countOfClients);
+        System.out.println("Average time of booking :" + avgTimeOfBooking);
 
     }
 

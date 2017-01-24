@@ -41,4 +41,12 @@ public class HotelService {
         return DaoFactory.getInstance().getHotelDao().findFreeHotels(city, date);
     }
 
+    public int findCountOfClients(String hotel) {
+        return DaoFactory.getInstance().getHotelDao().findCountOfClients(hotel);
+    }
+
+    public int averageTimeOfBooking(String hotel) {
+        return DaoFactory.getInstance().getHotelDao().averageTimeOfBooking(hotel);
+    }
+
 }
