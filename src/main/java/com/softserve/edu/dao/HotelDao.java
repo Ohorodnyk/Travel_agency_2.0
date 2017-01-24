@@ -1,5 +1,8 @@
 package com.softserve.edu.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +39,58 @@ public class HotelDao extends GenericDaoImpl<Hotel> {
                 session.close();
             }
         }
-        
+
         return hotels;
+    }
+
+    public int findCountOfFreeRooms(String hotel, Date date) {
+        Session session = null;
+        int count = 0;
+        try {
+
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("select count(r.id) from Booking as b " + " inner join  b.room as r "
+                    + " inner join  r.hotel as h " + " where h.name  =:hotel "
+                    + " and  :date1 NOT BETWEEN b.startData AND b.endDate " + "AND  :date2 >b.endDate ");
+            query.setParameter("hotel", hotel);
+            query.setParameter("date1", date);
+            query.setParameter("date2", date);
+            List list = query.list();
+            count = ((Number) list.get(0)).intValue();
+            transaction.commit();
+        }
+
+        finally {
+            if ((session != null) && (session.isOpen())) {
+                session.close();
+            }
+        }
+        return count;
+
+    }
+
+    public List<Object[]> findFreeHotels(String city, Date date) {
+        Session session = null;
+        List<Object[]> list = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("select h.name, count(*) from Hotel as h "
+                    + " inner join  h.city as c  with c.name = :city " + " left join  h.hotelRooms as hr "
+                    + " left join hr.booking as b " + " where b.endDate is null "
+                    + " OR :date NOT BETWEEN b.startData AND b.endDate " + "group by h.name");
+            query.setParameter("city", city);
+            query.setParameter("date", date);
+            list = query.list();
+            transaction.commit();
+        }
+        finally {
+            if ((session != null) && (session.isOpen())) {
+                session.close();
+            }
+
+        }
+       return list;
     }
 }

@@ -1,5 +1,6 @@
 package com.softserve.edu.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -27,10 +28,17 @@ public class HotelService {
     public void deleteHotel(Hotel hotel) {
         DaoFactory.getInstance().getHotelDao().delete(hotel);
     }
-    
-    public Set<Hotel> findHotels(String city)
-    {
-       return  DaoFactory.getInstance().getHotelDao().findHotels(city);
+
+    public Set<Hotel> findHotels(String city) {
+        return DaoFactory.getInstance().getHotelDao().findHotels(city);
+    }
+
+    public int findCountOfFreeRooms(String hotel, Date date) {
+        return DaoFactory.getInstance().getHotelDao().findCountOfFreeRooms(hotel, date);
+    }
+
+    public List<Object[]> findFreeHotels(String city, Date date) {
+        return DaoFactory.getInstance().getHotelDao().findFreeHotels(city, date);
     }
 
 }

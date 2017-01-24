@@ -36,4 +36,8 @@ public class VisaService {
         return DaoFactory.getInstance().getVisaDao().countOfVisas(country);
     }
 
+    public List<Visa> findValidVisas(String firstName, String lastName, String country) {
+        return DaoFactory.getInstance().getVisaDao().findValidVisas(firstName, lastName, country);
+    }
+
 }

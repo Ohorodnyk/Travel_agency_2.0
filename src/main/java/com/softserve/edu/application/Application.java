@@ -2,6 +2,7 @@ package com.softserve.edu.application;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,31 +20,37 @@ public class Application {
     public static void main(String[] args) {
 
         SessionFactory factory = HibernateUtil.getSessionFactory();
-        // Session session = factory.openSession();
         try {
+
             // loadData();
+            Date date = null;
+            try {
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                date = dateFormatter.parse("2017-02-20");
+            } catch (ParseException e) {
+                System.out.println("Parsing error");
+            }
+
             findCountriesAndCities();
             System.out.println("--------------------------------------");
             findHotels("Warsaw");
+            System.out.println("--------------------------------------");
+            findCountOfFreeRooms("Hotel Metropol", date);
+            System.out.println("--------------------------------------");
+            findFreeHotels("Warsaw", date);
             System.out.println("--------------------------------------");
             findVisasByClient("Ivan", "Petrenko");
             System.out.println("--------------------------------------");
             countOfVisas("Hungary");
             System.out.println("--------------------------------------");
-            showClientStatistics("Ivan","Petrenko");
+            reserveHotel("Ivan","Petrenko" ,"Poland","Warsaw",date);
             System.out.println("--------------------------------------");
-
-            /*
-             * Query query= session.createQuery(
-             * "Select t.tour.country from ClientTour t where t.client.firstName =:f"
-             * ); query.setParameter("f","Ivan"); List<Country> countries=
-             * query.list(); for (Country country : countries) {
-             * System.out.println(country.getName()); }
-             */
+            showClientStatistics("Ivan", "Petrenko");
+            System.out.println("--------------------------------------");
 
         } finally {
             factory.close();
-            // session.close();
+
         }
 
     }
@@ -77,6 +84,24 @@ public class Application {
         }
     }
 
+    // Query3
+    public static void findCountOfFreeRooms(String hotel, Date date) {
+        HotelService hotelService = new HotelService();
+        int count = hotelService.findCountOfFreeRooms(hotel, date);
+        System.out.println(hotel + ": Count of Free Rooms on " + date + " :" + count);
+    }
+
+    // Query4
+    public static void findFreeHotels(String city, Date date) {
+        HotelService hotelService = new HotelService();
+        List<Object[]> list = hotelService.findFreeHotels(city, date);
+        System.out.println("City:" + city + " on " + date);
+        for (Object[] aRow : list) {
+
+            System.out.println("Hotel:" + aRow[0] + " Free rooms:" + aRow[1]);
+        }
+    }
+
     // Query 5
     public static void findVisasByClient(String firstName, String lastName) {
         VisaService visaService = new VisaService();
@@ -95,6 +120,37 @@ public class Application {
         VisaService visaService = new VisaService();
         int count = visaService.countOfVisas(country);
         System.out.println("Count of visas to " + country + ":" + count);
+
+    }
+
+    // Query 7
+    public static void reserveHotel(String firstName, String lastName, String country, String city, Date date) {
+        VisaService visaService = new VisaService();
+        List<Visa> visas = visaService.findValidVisas(firstName, lastName, country);
+        if (visas.isEmpty()) {
+            System.out.println("Client can't reserve a Hotel because of not valid visa");
+            return;
+        }
+
+        System.out.println("Information about visas:");
+        for (Visa visa : visas) {
+            System.out.println("Country:" + visa.getCountry().getName());
+            System.out.println("Start Date:" + visa.getStartDate());
+            System.out.println("End Date:" + visa.getEndDate());
+        }
+
+        HotelService hotelService = new HotelService();
+        List<Object[]> list = hotelService.findFreeHotels(city, date);
+        if (list.isEmpty()) {
+            System.out.println("Sorry, but there are no free hotels");
+            return;
+        }
+        System.out.println("Hotels for reservation:");
+        System.out.println("City:" + city + " on " + date);
+        for (Object[] aRow : list) {
+
+            System.out.println("Hotel:" + aRow[0] + " Free rooms:" + aRow[1]);
+        }
 
     }
 
